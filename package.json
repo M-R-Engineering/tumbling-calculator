@@ -1,0 +1,40 @@
+{
+  "name": "tumbling-calculator",
+  "version": "0.0.1",
+  "description": "A JavaScript library for tumbling calculations",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "tumbling",
+    "calculator",
+    "gymnastics",
+    "FIG",
+    "FFGym"
+  ],
+  "author": "",
+  "license": "CC-BY-NC-4.0",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "jest": "^30.2.0",
+    "rollup": "^4.52.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M-R-Engineering/tumbling-calculator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/M-R-Engineering/tumbling-calculator/issues"
+  },
+  "homepage": "https://github.com/M-R-Engineering/tumbling-calculator#readme"
+}
