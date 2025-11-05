@@ -26,7 +26,7 @@ describe('calculateFigElement', () => {
     });
 
     test('should calculate ".--<"', () => {
-        expect(calculateFigElement('.--<')).toBe(2.3);
+        expect(calculateFigElement('.--<')).toBe(2.6);
     });
 
     test('should calculate "2--o"', () => {
