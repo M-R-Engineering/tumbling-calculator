@@ -1,28 +1,4 @@
-/**
- * Represents a basic tumbling element
- */
-class Element {
-    constructor(symbol, fig) {
-        this.symbol = symbol;
-        this.fig = fig;
-    }
-
-    is(symbol) {
-        return this.symbol === symbol;
-    }
-}
-
-/**
- * Recognized basic elements with their FIG values
- */
-const basicElements = [
-    new Element('!', 0),
-    new Element('X', 0.1),
-    new Element('(', 0.1),
-    new Element('f', 0.1),
-    new Element('S', 0.1),
-    new Element('^', 0.2)
-];
+import { BASICS_ELEMENTS } from './models.js';
 
 /**
  * Calculates the FIG points of a tumbling element
@@ -31,7 +7,7 @@ const basicElements = [
  */
 export function calculateFigElement(symbol) {
     // Check if it's a basic element
-    for (let element of basicElements) {
+    for (let element of BASICS_ELEMENTS) {
         if (element.is(symbol)) {
             return element.fig;
         }
@@ -47,7 +23,22 @@ export function calculateFigElement(symbol) {
     totalPoints += calculateVrillePoints(nbDemiVrille, nbRotations);
     totalPoints += calculatePositionBonus(symbol, nbRotations);
 
+    // console.log(`${symbol} have ${nbRotations} rotations and ${nbDemiVrille} demi vrille for a total of ${roundToOneDecimal(totalPoints * nbRotations)} points`);
+    // console.log(`\t -> ${calculateRotationPoints(nbRotations)} rotation points`);
+    // console.log(`\t -> ${calculateFrontBonus(symbol, nbRotations)} front bonus`);
+    // console.log(`\t -> ${calculateVrillePoints(nbDemiVrille, nbRotations)} vrille points`);
+    // console.log(`\t -> ${calculatePositionBonus(symbol, nbRotations)} position bonus`);
+
     return roundToOneDecimal(totalPoints * nbRotations);
+}
+
+export function calculateRoutine(routine) {
+    let totalPoints = 0;
+    const routineArray = routine.split(' ');
+    for (let element of routineArray) {
+        totalPoints += calculateFigElement(element);
+    }
+    return roundToOneDecimal(totalPoints);
 }
 
 // ============================================================================
@@ -152,13 +143,13 @@ function calculateFrontBonus(symbol, nbRotations) {
  * @returns {number} Twist points
  */
 function calculateVrillePoints(nbDemiVrille, nbRotations) {
-    let points = 0;
+    let points = 0.0;
 
     if (nbRotations === 1) {
         for (let index = 1; index <= nbDemiVrille; index++) {
             if (index <= 4) {
                 points += 0.2;
-            } else if (index <= 6) {
+            } else if (index > 4 && index <= 6) {
                 points += 0.3;
             } else {
                 points += 0.4;
@@ -168,9 +159,9 @@ function calculateVrillePoints(nbDemiVrille, nbRotations) {
         for (let index = 1; index <= nbDemiVrille; index++) {
             if (index <= 2) {
                 points += 0.1;
-            } else if (index <= 4) {
+            } else if (index > 2 && index <= 4) {
                 points += 0.2;
-            } else if (index <= 6) {
+            } else if (index > 4 && index <= 6) {
                 points += 0.3;
             } else {
                 points += 0.4;
@@ -186,7 +177,7 @@ function calculateVrillePoints(nbDemiVrille, nbRotations) {
         }
     }
 
-    return points;
+    return roundToOneDecimal(points);
 }
 
 /**
@@ -224,7 +215,9 @@ function calculatePositionBonus(symbol, nbRotations) {
 // Exports
 // ============================================================================
 
+export { Element } from './models.js';
+
 export default {
-    Element,
     calculateFigElement,
+    calculateRoutine,
 };

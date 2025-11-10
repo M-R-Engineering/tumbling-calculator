@@ -164,7 +164,7 @@ tumbling-calculator/
 ├── src/
 │   └── index.js          # Main source file
 ├── tests/
-│   └── index.test.js     # Test suite
+│   └── calculateFigElement.test.js     # Test suite
 ├── dist/                 # Built files (generated)
 ├── package.json
 ├── rollup.config.js      # Build configuration
