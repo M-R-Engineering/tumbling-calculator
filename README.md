@@ -30,14 +30,25 @@ npm install tumbling-calculator
 ### ES6 Modules
 
 ```javascript
-import { calculateFigElement } from 'tumbling-calculator';
+import {calculateFigElement} from 'tumbling-calculator';
+import {BASICS_ELEMENTS} from "./models";
+
+// List of Basic Elements
+console.log(BASICS_ELEMENTS);
+/* [
+  { symbol: '!', points: 0 },
+  { symbol: 'X', points: 0.1 },
+  { symbol: '(', points: 0.1 },
+  { symbol: 'f', points: 0.1 },
+  { symbol: 'S', points: 0.1 },
+  { symbol: '^', points: 0.2 }
+] */    
 
 // Calculate FIG points for an element
 const points = calculateFigElement('-o');
 console.log(points); // 0.5
 
 // More examples
-calculateFigElement('(');      // 0.1 - Round-off
 calculateFigElement('-o');     // 0.5 - Back salto
 calculateFigElement('-2o');    // 2.4 - Back in Full out
 calculateFigElement('42/');    // 4.8 - Double full in full out straight
@@ -45,6 +56,8 @@ calculateFigElement('.-/');    // 0.7 - Front straight salto
 calculateFigElement('.1');     // 0.8 - Barani
 calculateFigElement('.--<');   // 2.3 - Double front pike
 calculateFigElement('2--o');   // 6.3 - full in back back
+
+
 ```
 
 ### CommonJS
@@ -131,6 +144,21 @@ calculateFigElement('.--<'); // 2.3
 calculateFigElement('2--o'); // 6.3
 ```
 
+## `calculateFigRoutine(routine)`
+
+Calculates the total FIG points for a routine consisting of multiple tumbling elements.
+
+**Parameters:**
+- `routine` (string): Symbol representing the tumbling routine (elements separated by spaces)
+
+**Returns:**
+- (number): FIG points of the routine, rounded to 1 decimal place
+
+**Examples:**
+
+```javascript
+calculateRoutine('( ^ ^ f --o')   // 2.6
+```
 ## Development
 
 ### Install Dependencies
@@ -156,22 +184,6 @@ npm test
 ```
 
 Tests are written with Jest and located in the `tests/` directory.
-
-## Project Structure
-
-```
-tumbling-calculator/
-├── src/
-│   └── index.js          # Main source file
-├── tests/
-│   └── calculateFigElement.test.js     # Test suite
-├── dist/                 # Built files (generated)
-├── package.json
-├── rollup.config.js      # Build configuration
-├── jest.config.js        # Test configuration
-├── LICENSE               # CC-BY-NC-4.0 license
-└── README.md
-```
 
 ## Contributing
 
