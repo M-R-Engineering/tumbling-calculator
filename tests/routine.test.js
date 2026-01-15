@@ -1,6 +1,6 @@
 import {Routine} from "../src/models.js";
 
-describe('Routine Class', () => {
+describe('Routine Class getTotalPoints()', () => {
     test.each([
         ['( ^ ^ f -/', 1.2],
         ['( ^ ^ ^ ^ ^ f 2-/', 4.0],
