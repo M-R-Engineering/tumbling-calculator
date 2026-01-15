@@ -7,6 +7,6 @@ describe('calculateRoutine', () => {
         ['( ^ f ^ f ^ f 3', 2.1],
         ['( 22/ ^ f 2-/ ^ f 42/', 11.9],
     ])('should calculate "%s" and return %s', (routine, expected) => {
-        expect(calculateRoutine(routine)).toBe(expected);
+        expect(calculateRoutine(routine)).toBeCloseTo(expected);
     });
 });

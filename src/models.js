@@ -1,4 +1,4 @@
-import { calculateFigElement } from "./index.js";
+import { calculateFigElement } from "./calculateFigElement.js";
 
 /**
  * Represents a basic tumbling element
@@ -6,13 +6,13 @@ import { calculateFigElement } from "./index.js";
 export class Element {
     /**
      * @param {string} symbol - Symbol representing the element
-     * @param {number} fig - FIG points value
+     * @param {number} points - FIG points value
      */
-    constructor(symbol, fig) {
+    constructor(symbol, points) {
         /** @type {string} */
         this.symbol = symbol;
         /** @type {number} */
-        this.fig = fig;
+        this.points = points;
     }
 
     /**
@@ -37,12 +37,18 @@ export const BASICS_ELEMENTS = [
  * Represents a tumbling routine (sequence of elements)
  */
 export class Routine {
+
     /**
-     * @param {Element[]} elements - Array of element symbols
+     * @param {string} name - Name of the routine
+     * @param {Element[]} elements - Elements
      */
-    constructor(elements = []) {
+    constructor(name, elements) {
+        /** @type {string} */
+        this.name = name || 'Unnamed Routine';
         /** @type {Element[]} */
         this.elements = elements;
+        /** @type {number} */
+        this.totalPoint = elements ? elements.reduce((acc, elt) => acc + elt.points, 0) : 0;
     }
 
     /**
@@ -51,6 +57,9 @@ export class Routine {
      * @returns {void}
      */
     addElement(element) {
+        if(!this.elements) {
+            this.elements = [];
+        }
         this.elements.push(element);
     }
 
@@ -62,8 +71,12 @@ export class Routine {
         return this.elements;
     }
 
+    /**
+     * Calculates total points of the routine
+     * @returns {number}
+     */
     getTotalPoints() {
-        return this.elements.reduce((acc, elt) => acc + elt.fig, 0);
+        return this.elements.reduce((acc, elt) => acc + elt.points, 0);
     }
 
     /**
@@ -75,16 +88,37 @@ export class Routine {
     }
 
     /**
+     * Converts to JSON object (matching routine-sample.json structure)
+     * @returns {Object} JSON object compatible with routine-sample.json
+     */
+    toJSON() {
+        return {
+            name: this.name,
+            totalPoint: this.totalPoint,
+            routine: {
+                elements: this.elements.map(el => ({
+                    symbol: el.symbol,
+                    points: el.points
+                }))
+            }
+        };
+    }
+
+    /**
      * Parses a routine string into a Routine object
      * @param {string} routineString - Space-separated element symbols
      * @returns {Routine} Routine object
      */
     static fromString(routineString) {
-        const routine = new Routine();
         const symbolList = routineString.split(' ').filter(e => e.trim() !== '');
-        symbolList.forEach(symbol => {
-            routine.addElement(new Element(symbol, calculateFigElement(symbol)));
+        const elements = symbolList.map(s => {
+            // Vérifie d'abord si c'est un élément basique (évite la dépendance circulaire)
+            const basic = BASICS_ELEMENTS.find(b => b.is(s));
+            if (basic) return basic;
+            // Sinon calcule les points via la fonction utilitaire
+            return new Element(s, calculateFigElement(s));
         });
-        return routine;
+        return new Routine(undefined, elements);
     }
 }
+
