@@ -6,13 +6,20 @@ import { calculateFigElement } from "./calculateFigElement.js";
 export class Element {
     /**
      * @param {string} symbol - Symbol representing the element
-     * @param {number} points - FIG points value
+     * @param {number} points - FIG points value, if null, it will be calculated
      */
     constructor(symbol, points) {
         /** @type {string} */
         this.symbol = symbol;
-        /** @type {number} */
-        this.points = points;
+        if(this.isBasicElement(symbol)) {
+            BASICS_ELEMENTS.filter(elt => elt.symbol === symbol).forEach(elt => {
+                this.points = elt.points;
+                this.symbol = elt.symbol;
+            });
+        } else {
+            /** @type {number} */
+            this.points = points ? points : calculateFigElement(symbol);
+        }
     }
 
     /**
@@ -21,6 +28,10 @@ export class Element {
      */
     is(symbol) {
         return this.symbol === symbol;
+    }
+
+    isBasicElement(symbol) {
+        return BASICS_ELEMENTS.some(elt => elt.symbol === symbol);
     }
 }
 
