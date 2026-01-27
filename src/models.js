@@ -1,5 +1,15 @@
 import { calculateFigElement } from "./calculateFigElement.js";
 
+
+export const BASICS_ELEMENTS = [
+    new Element('!', 0),
+    new Element('X', 0.1),
+    new Element('(', 0.1),
+    new Element('f', 0.1),
+    new Element('S', 0.1),
+    new Element('^', 0.2)
+];
+
 /**
  * Represents a basic tumbling element
  */
@@ -34,15 +44,6 @@ export class Element {
         return BASICS_ELEMENTS.some(elt => elt.symbol === symbol);
     }
 }
-
-export const BASICS_ELEMENTS = [
-    new Element('!', 0),
-    new Element('X', 0.1),
-    new Element('(', 0.1),
-    new Element('f', 0.1),
-    new Element('S', 0.1),
-    new Element('^', 0.2)
-];
 
 /**
  * Represents a tumbling routine (sequence of elements)
