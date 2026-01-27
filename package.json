@@ -20,7 +20,8 @@
     "build": "rollup -c && npm run build:interface",
     "build:interface": "npx tsc src/index.js --declaration --allowJs --emitDeclarationOnly --outDir ./dist",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "version:bump": "npm version patch -m \":arrow_up: Bump to version %s\""
   },
   "keywords": [
     "tumbling",
