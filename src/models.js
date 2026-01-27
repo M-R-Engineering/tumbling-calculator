@@ -1,13 +1,14 @@
 import { calculateFigElement } from "./calculateFigElement.js";
 
 
-export const BASICS_ELEMENTS = [
-    new Element('!', 0),
-    new Element('X', 0.1),
-    new Element('(', 0.1),
-    new Element('f', 0.1),
-    new Element('S', 0.1),
-    new Element('^', 0.2)
+const BASICS_SYMBOLS = ['!', 'X', '(', 'f', 'S', '^'];
+const BASICS = [
+        {symbol:'!', points:0},
+        {symbol:'X', points:0.1},
+        {symbol:'(', points:0.1},
+        {symbol:'f', points:0.1},
+        {symbol:'S', points:0.1},
+        {symbol:'^', points:0.2}
 ];
 
 /**
@@ -22,10 +23,11 @@ export class Element {
         /** @type {string} */
         this.symbol = symbol;
         if(this.isBasicElement(symbol)) {
-            BASICS_ELEMENTS.filter(elt => elt.symbol === symbol).forEach(elt => {
-                this.points = elt.points;
-                this.symbol = elt.symbol;
-            });
+            BASICS.filter(elt => elt.symbol === symbol)
+                .forEach(elt => {
+                    this.points = elt.points;
+                    this.symbol = elt.symbol;
+                });
         } else {
             /** @type {number} */
             this.points = points ? points : calculateFigElement(symbol);
@@ -41,9 +43,18 @@ export class Element {
     }
 
     isBasicElement(symbol) {
-        return BASICS_ELEMENTS.some(elt => elt.symbol === symbol);
+        return BASICS_SYMBOLS.includes(symbol);
     }
 }
+
+export const BASICS_ELEMENTS = [
+    new Element('!', 0),
+    new Element('X', 0.1),
+    new Element('(', 0.1),
+    new Element('f', 0.1),
+    new Element('S', 0.1),
+    new Element('^', 0.2)
+];
 
 /**
  * Represents a tumbling routine (sequence of elements)
